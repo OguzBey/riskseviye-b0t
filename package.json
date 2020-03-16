@@ -1,0 +1,17 @@
+{
+  "name": "akillifon_bot",
+  "version": "1.0.0",
+  "description": "Akıllı Fon bot",
+  "main": "main.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "author": "Oğuzhan",
+  "license": "MIT",
+  "dependencies": {
+    "mongodb": "^3.5.5",
+    "node-html-parser": "^1.2.12",
+    "nodemailer": "^6.4.5",
+    "request": "^2.88.2"
+  }
+}
