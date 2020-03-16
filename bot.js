@@ -250,7 +250,7 @@ async function start() {
             let riskLevel = result.riskLevel
             let query = {}
             let setData = {}
-            query[fonCodeField] = fonCode
+            query[fonCodeField] = { $regex: `^${fonCode}$`, $options: "i" }
             setData[riskLevelField] = riskLevel
             try {
                 dbo.collection(collectionName).updateOne(query, { $set: setData })
