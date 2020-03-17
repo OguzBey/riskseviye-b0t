@@ -2,9 +2,8 @@ var request = require('request')
 var htmlParser = require('node-html-parser')
 var fs = require('fs')
 var MongoClient = require('mongodb').MongoClient
-var config = require('./config')
+var {config, riskGroups} = require('./config')
 var sendMail = require('./mail')
-
 
 var kapUrl = config.kapUrl
 var errorLogFile = config.errorLogFile
@@ -13,6 +12,7 @@ var collectionName = config.collectionName
 var connectURI = config.connectURI
 var riskLevelField = config.mongoRiskLevelField
 var fonCodeField = config.mongoFonCodeField
+var riskGroupField = config.mongoRiskGroupField
 
 
 function writeLog(error) {
@@ -234,6 +234,16 @@ async function getAllResult() {
     return allResult
 }
 
+function findRiskGroup(risk){
+    // return risk groups value or null
+
+    if(risk === 1) return riskGroups.veryLow
+    else if (risk === 2 || risk === 3) return riskGroups.low
+    else if (risk == 4) return riskGroups.medium
+    else if (risk === 5 || risk === 6) return riskGroups.high
+    else if (risk === 7) return riskGroups.veryHigh
+    else return null
+}
 
 async function start() {
     // get All data
@@ -250,8 +260,9 @@ async function start() {
             let riskLevel = result.riskLevel
             let query = {}
             let setData = {}
-            query[fonCodeField] = { $regex: `^${fonCode}$`, $options: "i" }
+            setData[riskGroupField] = findRiskGroup(riskLevel)
             setData[riskLevelField] = riskLevel
+            query[fonCodeField] = { $regex: `^${fonCode}$`, $options: "i" }
             try {
                 dbo.collection(collectionName).updateOne(query, { $set: setData })
             } catch (err) {
