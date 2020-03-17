@@ -8,7 +8,7 @@ var config = {
     mongoRiskLevelField: "riskLevel", // mongo db field name
     mongoRiskGroupField : "riskGroup", // mongo db field name
     mongoFonCodeField: "symbol", // mongo db field name
-    errorLogToMail: "oguzhan.v.arslan@gmial.com" // error mail to
+    errorLogToMail: "oguzhan.v.arslan@gmail.com" // error mail to
 }
 
 // Risk groups values
